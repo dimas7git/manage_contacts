@@ -1,12 +1,15 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../config/database");
+import Sequelize from "sequelize";
+import sequelize from "../config/database.js";
+
+import userModel from "./user/model.js";
+import contactModel from "./contact/model.js";
 
 const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.User = require("./user/model")(sequelize, Sequelize.DataTypes);
-db.Contact = require("./contact/model")(sequelize, Sequelize.DataTypes);
+db.User = userModel(sequelize, Sequelize.DataTypes);
+db.Contact = contactModel(sequelize, Sequelize.DataTypes);
 
-module.exports = db;
+export default db;
