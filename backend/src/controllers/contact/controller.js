@@ -1,4 +1,5 @@
 import db from "../../models/index.js";
+import { Parser } from "json2csv";
 const Contact = db.Contact;
 
 const contactController = {
@@ -27,10 +28,13 @@ const contactController = {
         where[db.Sequelize.Op.or] = [
           { name: { [db.Sequelize.Op.like]: `%${q}%` } },
           { email: { [db.Sequelize.Op.like]: `%${q}%` } },
-          { phone: { [db.Sequelize.Op.like]: `%${q}%` } }
+          { phone: { [db.Sequelize.Op.like]: `%${q}%` } },
+          { city: { [db.Sequelize.Op.like]: `%${q}%` } },
+          { neighborhood: { [db.Sequelize.Op.like]: `%${q}%` } },
+          { cep: { [db.Sequelize.Op.like]: `%${q}%` } }
         ];
       }
-
+      
       const contacts = await Contact.findAll({ where });
       res.json(contacts);
     } catch (err) {
@@ -78,6 +82,22 @@ const contactController = {
       res.json({ message: "Contato deletado com sucesso" });
     } catch (err) {
       res.status(500).json({ message: "Erro ao deletar contato", error: err.message });
+    }
+  },
+  
+  exportToCSV: async (req, res) => {
+    try {
+      const contacts = await Contact.findAll({ where: { user_id: req.userId } });
+
+      const fields = ['name', 'email', 'phone', 'cep', 'address', 'neighborhood', 'city', 'state', 'status'];
+      const parser = new Parser({ fields });
+      const csv = parser.parse(contacts.map(c => c.toJSON()));
+
+      res.header('Content-Type', 'text/csv');
+      res.attachment('contatos.csv');
+      return res.send(csv);
+    } catch (err) {
+      res.status(500).json({ message: "Erro ao exportar contatos", error: err.message });
     }
   }
 };
