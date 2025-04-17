@@ -13,8 +13,10 @@ router.use(authMiddleware);
 
 router.post("/contacts", contactController.create);
 router.get("/contacts", contactController.findAll);
+router.get("/contacts/export", contactController.exportToCSV);
 router.get("/contacts/:id", contactController.findOne);
 router.put("/contacts/:id", contactController.update);
 router.delete("/contacts/:id", contactController.delete);
+
 
 export default router;
