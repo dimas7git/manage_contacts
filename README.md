@@ -11,7 +11,6 @@ Sistema de gerenciamento de contatos completo com frontend em React e backend em
 - Filtros por:
   - Status (ativo/inativo)
   - Data de criação
-  - Data de atualização
 - Exportação dos contatos em `.csv`
 - Preenchimento automático de endereço via **CEP (ViaCEP API)**
 
