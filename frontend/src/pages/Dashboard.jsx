@@ -146,6 +146,11 @@ const Dashboard = () => {
       email: contato.email,
       phone: contato.phone,
       status: contato.status,
+      cep: contato.cep,
+      address: contato.address,
+      neighborhood: contato.neighborhood,
+      city: contato.city,
+      state: contato.state,
     });
     setEditandoId(contato.id);
   };
